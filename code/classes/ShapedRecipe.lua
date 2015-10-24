@@ -86,7 +86,7 @@ function cShapedRecipe:SetIngredient(a_Char, a_ItemType, a_Data)
 end
 
 
--- Returns the minnium amount of a ingredient in the grid
+-- Returns the minium amount of a ingredient in the grid
 function cShapedRecipe:GetAmount(a_ItemsGrid)
 	local amount = 100
 	for x = 1, #a_ItemsGrid do
@@ -114,22 +114,22 @@ function cShapedRecipe:IsCraftingridEmpty(a_ItemsGrid)
 	return true
 end
 
--- Checks the content of the grid and if it's match, returns the result item
--- and the minium amount of the ingredient
-function cShapedRecipe:CheckIfMatch(a_CraftingGrid)
+-- Checks the content of a_CraftingGrid
+-- If it's match set the ingredient(s) and result item in a_Recipe and returns true
+function cShapedRecipe:CheckIfMatch(a_CraftingGrid, a_Recipe)
 	assert(self.m_Shape ~= nil, "No shape has been set.")
 
 	local sizeGrid = a_CraftingGrid:GetHeight()
 
 	-- Check size
 	if ((#self.m_Shape > sizeGrid) or (#self.m_Shape[1] > sizeGrid)) then
-		return nil
+		return false
 	end
 
 	local itemsGrid = self:ToItemArray(a_CraftingGrid)
 	-- Check if empty
 	if (self:IsCraftingridEmpty(itemsGrid)) then
-		return nil
+		return false
 	end
 
 	if ((#self.m_Shape ~= sizeGrid) or (#self.m_Shape[1] ~= sizeGrid)) then
@@ -138,7 +138,7 @@ function cShapedRecipe:CheckIfMatch(a_CraftingGrid)
 
 		-- Recheck size
 		if ((#itemsGrid ~= #self.m_Shape) or (#itemsGrid[1] ~= #self.m_Shape[1])) then
-			return nil
+			return false
 		end
 	end
 
@@ -149,12 +149,12 @@ function cShapedRecipe:CheckIfMatch(a_CraftingGrid)
 
 			if (itemGrid:IsEmpty() and (tbIngredients ~= nil)) then
 				-- Item in grid is empty but tbIngredients is not nil
-				return nil
+				return false
 			end
 
 			if ((not itemGrid:IsEmpty()) and (tbIngredients == nil)) then
 				-- Item in grid is not empty but tbIngredients is nil
-				return nil
+				return false
 			end
 
 			-- Check if match
@@ -173,7 +173,7 @@ function cShapedRecipe:CheckIfMatch(a_CraftingGrid)
 					end
 				end
 				if (not foundMatch) then
-					return nil
+					return false
 				end
 			end
 		end
@@ -186,7 +186,21 @@ function cShapedRecipe:CheckIfMatch(a_CraftingGrid)
 	local resultItem = cItem(self.m_ResultItem)
 	resultItem.m_ItemCount = resultItem.m_ItemCount * amountIngredient
 
-	return resultItem, amountIngredient
+	-- Set ingredient(s)
+	local sizeGrid = a_CraftingGrid:GetHeight()
+	for x = 0, sizeGrid - 1 do
+		for y = 0, sizeGrid - 1 do
+			if (not a_CraftingGrid:GetItem(x, y):IsEmpty()) then
+				-- Change amountIngredient to minium amount, if #2503 has been fixed
+				a_Recipe:SetIngredient(x, y, a_CraftingGrid:GetItem(x, y).m_ItemType, amountIngredient, 0)
+			end
+		end
+	end
+
+	a_Recipe:SetResult(resultItem);
+	a_Recipe:ConsumeIngredients(a_CraftingGrid)
+
+	return true
 end
 
 

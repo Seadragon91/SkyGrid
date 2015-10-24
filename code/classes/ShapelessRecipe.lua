@@ -73,9 +73,9 @@ function cShapelessRecipe:GetAmount(a_ItemsGrid)
 end
 
 
--- Checks the content of the grid and if it's match, returns the result item
--- and the minium amount of the ingredient
-function cShapelessRecipe:CheckIfMatch(a_CraftingGrid)
+-- Checks the content of a_CraftingGrid
+-- If it's match set the ingredient(s) and result item in a_Recipe and returns true
+function cShapelessRecipe:CheckIfMatch(a_CraftingGrid, a_Recipe)
 	-- Check if same amount of items
 	local itemsGrid = self:ToItemArray(a_CraftingGrid)
 	local sizeIngredients = 0
@@ -83,7 +83,7 @@ function cShapelessRecipe:CheckIfMatch(a_CraftingGrid)
 		sizeIngredients = sizeIngredients + #arrItemTypes
 	end
 	if sizeIngredients ~= #itemsGrid then
-		return nil
+		return false
 	end
 
 	-- Check if items match
@@ -104,7 +104,7 @@ function cShapelessRecipe:CheckIfMatch(a_CraftingGrid)
 				end
 			end
 			if not found then
-				return nil
+				return false
 			end
 		end
 	end
@@ -116,5 +116,19 @@ function cShapelessRecipe:CheckIfMatch(a_CraftingGrid)
 	local resultItem = cItem(self.m_ResultItem)
 	resultItem.m_ItemCount = resultItem.m_ItemCount * amountIngredient
 
-	return resultItem, amountIngredient
+	-- Set ingredient(s)
+	local sizeGrid = a_CraftingGrid:GetHeight()
+	for x = 0, sizeGrid - 1 do
+		for y = 0, sizeGrid - 1 do
+			if (not a_CraftingGrid:GetItem(x, y):IsEmpty()) then
+				-- Change amountIngredient to minium amount, if #2503 has been fixed
+				a_Recipe:SetIngredient(x, y, a_CraftingGrid:GetItem(x, y).m_ItemType, amountIngredient, 0)
+			end
+		end
+	end
+
+	a_Recipe:SetResult(resultItem);
+	a_Recipe:ConsumeIngredients(a_CraftingGrid)
+
+	return true
 end

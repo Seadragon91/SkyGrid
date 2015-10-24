@@ -65,23 +65,9 @@ function OnCraftingNoRecipe(a_Player, a_Grid, a_Recipe)
 		return
 	end
 
-	local resultItem, amountIngredient = CheckRecipes(a_Grid)
-	if (resultItem == nil) then
+	local matchFound = CheckRecipes(a_Grid, a_Recipe)
+	if (not matchFound) then
 		return
 	end
-
-	-- Set ingredient
-	local sizeGrid = a_Grid:GetHeight()
-	for x = 0, sizeGrid - 1 do
-		for y = 0, sizeGrid - 1 do
-			if (not a_Grid:GetItem(x, y):IsEmpty()) then
-				-- Change amountIngredient to minium amount, if #2503 has been fixed
-				a_Recipe:SetIngredient(x, y, a_Grid:GetItem(x, y).m_ItemType, amountIngredient, 0)
-			end
-		end
-	end
-
-	a_Recipe:SetResult(resultItem);
-	a_Recipe:ConsumeIngredients(a_Grid)
 	return true
 end

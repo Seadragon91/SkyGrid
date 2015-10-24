@@ -61,7 +61,7 @@ function cBlocksEnd:CreateBlockList()
 	}
 
 	self.blockList.rare = {}
-	self.blockList.abundant.probability = { 91, 100 }
+	self.blockList.rare.probability = { 91, 100 }
 	self.blockList.rare.blocks =
 	{
 		E_BLOCK_MOB_SPAWNER,

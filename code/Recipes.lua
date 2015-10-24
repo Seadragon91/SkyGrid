@@ -1,15 +1,13 @@
-function CheckRecipes(a_CraftingGrid)
+function CheckRecipes(a_CraftingGrid, a_Recipe)
 	for _, recipe in pairs(shapelessRecipes) do
-		local resultItem, amountIngredient = recipe:CheckIfMatch(a_CraftingGrid)
-		if (resultItem ~= nil) then
-			return resultItem, amountIngredient
+		if (recipe:CheckIfMatch(a_CraftingGrid, a_Recipe)) then
+			return true
 		end
 	end
 
 	for _, recipe in pairs(shapedRecipes) do
-		local resultItem, amountIngredient = recipe:CheckIfMatch(a_CraftingGrid)
-		if (resultItem ~= nil) then
-			return resultItem, amountIngredient
+		if (recipe:CheckIfMatch(a_CraftingGrid, a_Recipe)) then
+			return true
 		end
 	end
 
