@@ -3,7 +3,7 @@ function GetRandomItems()
 	local items = cItems()
 
 	for _, list in pairs(chestContent) do
-		if ((rnd >=list.probability[1]) and (rnd <= list.probability[2])) then
+		if ((rnd >= list.probability[1]) and (rnd <= list.probability[2])) then
 			for amount = 1, math.random(1, list.amountItems) do
 				items:Add(GetItemFromList(list.items, math.random(list.itemCount[1], list.itemCount[2])))
 			end

@@ -109,9 +109,12 @@ function cShapelessRecipe:CheckIfMatch(a_CraftingGrid)
 		end
 	end
 
-	-- Found a match
+	-- Workaround: Directly set the max item count of the result item that are
+	-- possible with the ingredient(s)
+	-- If #2503 has been fixed, remove it
 	local amountIngredient = self:GetAmount(itemsGrid)
 	local resultItem = cItem(self.m_ResultItem)
 	resultItem.m_ItemCount = resultItem.m_ItemCount * amountIngredient
+
 	return resultItem, amountIngredient
 end

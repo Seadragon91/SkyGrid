@@ -14,7 +14,7 @@ function cShapedRecipe.new(a_ResultItem)
 end
 
 
--- Shape as array in format :  "WS ", " S ", "WWW" or "S", "WW"
+-- Shape in format :  "WS ", " S ", "WWW" or "S ", "WW"
 function cShapedRecipe:Shape(...)
 	assert(#arg ~= 0, "No shape has been passed.")
 	assert(#arg <= 3, "Only max 3 strings can be passed.")
@@ -179,10 +179,13 @@ function cShapedRecipe:CheckIfMatch(a_CraftingGrid)
 		end
 	end
 
-	-- Found a match
+	-- Workaround: Directly set the max item count of the result item that are
+	-- possible with the ingredient(s)
+	-- If #2503 has been fixed, remove it
 	local amountIngredient = self:GetAmount(itemsGrid)
 	local resultItem = cItem(self.m_ResultItem)
 	resultItem.m_ItemCount = resultItem.m_ItemCount * amountIngredient
+
 	return resultItem, amountIngredient
 end
 
@@ -219,7 +222,7 @@ function cShapedRecipe:Reduce(a_Shape, a_IsItem)
 	local endY = 0
 
 	for x = 1, #a_Shape do
-		for y = 1, #a_Shape[1] do
+		for y = 1, #a_Shape[x] do
 			if (not self:IsEmpty(a_Shape[x][y], a_IsItem)) then
 				if ((startX == 0) or (startX > x)) then
 					startX = x

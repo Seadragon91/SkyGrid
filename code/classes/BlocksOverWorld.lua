@@ -1,8 +1,8 @@
-cBlocksOverWorld = {}
-cBlocksOverWorld.__index = cBlocksOverWorld
+cBlocksOverworld = {}
+cBlocksOverworld.__index = cBlocksOverworld
 
-function cBlocksOverWorld.new()
-	local self = setmetatable({}, cBlocksOverWorld)
+function cBlocksOverworld.new()
+	local self = setmetatable({}, cBlocksOverworld)
 
 	self.m_FoodTypes = { E_BLOCK_POTATOES, E_BLOCK_CROPS,  E_BLOCK_CARROTS }
 	self.m_MobTypes = { 50, 51, 52, 54, 55, 59, 65 }
@@ -14,7 +14,7 @@ end
 
 
 
-function cBlocksOverWorld:GetRandomBlock()
+function cBlocksOverworld:GetRandomBlock()
 	local rnd = math.random(100)
 
 	for _, list in pairs(self.blockList) do
@@ -26,7 +26,7 @@ end
 
 
 
-function cBlocksOverWorld:CheckSpecificBlocks(a_ChunkDesc, a_X, a_Y, a_Z, a_Block, a_Meta)
+function cBlocksOverworld:CheckSpecificBlocks(a_ChunkDesc, a_X, a_Y, a_Z, a_Block, a_Meta)
 	local rnd = math.random(1, 100)
 
 	if ((rnd >= 75) and (a_X > 0) and (a_X < 15) and (a_Z > 0) and (a_Z < 15)) then
@@ -49,30 +49,30 @@ function cBlocksOverWorld:CheckSpecificBlocks(a_ChunkDesc, a_X, a_Y, a_Z, a_Bloc
 
 		if (a_Block == E_BLOCK_SAND) then
 			if (rnd2 == 0) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X - 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X - 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER)
 			elseif (rnd2 == 1) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X + 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X + 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER)
 			elseif (rnd2 == 2) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X, a_Y, a_Z - 1, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X, a_Y, a_Z - 1, E_BLOCK_STATIONARY_WATER)
 			elseif (rnd2 == 3) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X, a_Y, a_Z + 1, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X, a_Y, a_Z + 1, E_BLOCK_STATIONARY_WATER)
 			end
-			a_ChunkDesc:SetBlockTypeMeta(a_X, a_Y + 1, a_Z, E_BLOCK_SUGARCANE, 0)
+			a_ChunkDesc:SetBlockType(a_X, a_Y + 1, a_Z, E_BLOCK_SUGARCANE)
 			return
 		end
 
 		if (a_Block == E_BLOCK_DIRT) then
 			if (rnd2 == 0) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X - 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X - 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER)
 			elseif (rnd2 == 1) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X + 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X + 1, a_Y, a_Z, E_BLOCK_STATIONARY_WATER)
 			elseif (rnd2 == 2) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X, a_Y, a_Z - 1, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X, a_Y, a_Z - 1, E_BLOCK_STATIONARY_WATER)
 			elseif (rnd2 == 3) then
-				a_ChunkDesc:SetBlockTypeMeta(a_X, a_Y, a_Z + 1, E_BLOCK_STATIONARY_WATER, 0)
+				a_ChunkDesc:SetBlockType(a_X, a_Y, a_Z + 1, E_BLOCK_STATIONARY_WATER)
 			end
-			a_ChunkDesc:SetBlockTypeMeta(a_X, a_Y, a_Z, E_BLOCK_FARMLAND, 0)
-			a_ChunkDesc:SetBlockTypeMeta(a_X, a_Y + 1, a_Z, self.m_FoodTypes[math.random(#self.m_FoodTypes)], 0)
+			a_ChunkDesc:SetBlockType(a_X, a_Y, a_Z, E_BLOCK_FARMLAND)
+			a_ChunkDesc:SetBlockType(a_X, a_Y + 1, a_Z, self.m_FoodTypes[math.random(#self.m_FoodTypes)])
 			return
 		end
 	end
@@ -104,7 +104,7 @@ end
 
 
 
-function cBlocksOverWorld:GetFromBlockList(a_BlockList)
+function cBlocksOverworld:GetFromBlockList(a_BlockList)
 	local block = a_BlockList[math.random(#a_BlockList)]
 
 	-- Check if table
@@ -117,7 +117,7 @@ end
 
 
 
-function cBlocksOverWorld:CreateBlockList()
+function cBlocksOverworld:CreateBlockList()
 	self.blockList = {}
 	self.blockList.abundant = {}
 	self.blockList.abundant.probability = { 1, 84 }

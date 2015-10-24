@@ -27,12 +27,32 @@ function OnChunkGenerating(a_World, a_ChunkX, a_ChunkZ, a_ChunkDesc)
 		for z = 0, 15, 4 do
 			for y = 118, 255, 4 do
 				local block, meta = BLOCKS_OVERWORLD:GetRandomBlock()
-				a_ChunkDesc:SetBlockTypeMeta(x, y, z, block, meta)
+				if (meta == 0) then
+					a_ChunkDesc:SetBlockType(x, y, z, block)
+				else
+					a_ChunkDesc:SetBlockTypeMeta(x, y, z, block, meta)
+				end
 				BLOCKS_OVERWORLD:CheckSpecificBlocks(a_ChunkDesc, x, y, z, block, meta)
 			end
 
 			for y = 66, 114, 4 do
-				
+				local block, meta = BLOCKS_NETHER:GetRandomBlock()
+				if (meta == 0) then
+					a_ChunkDesc:SetBlockType(x, y, z, block)
+				else
+					a_ChunkDesc:SetBlockTypeMeta(x, y, z, block, meta)
+				end
+				BLOCKS_NETHER:CheckSpecificBlocks(a_ChunkDesc, x, y, z, block, meta)
+			end
+
+			for y = 2, 62, 4 do
+				local block, meta = BLOCKS_END:GetRandomBlock()
+				if (meta == 0) then
+					a_ChunkDesc:SetBlockType(x, y, z, block)
+				else
+					a_ChunkDesc:SetBlockTypeMeta(x, y, z, block, meta)
+				end
+				BLOCKS_END:CheckSpecificBlocks(a_ChunkDesc, x, y, z, block, meta)
 			end
 		end
 	end
@@ -55,6 +75,7 @@ function OnCraftingNoRecipe(a_Player, a_Grid, a_Recipe)
 	for x = 0, sizeGrid - 1 do
 		for y = 0, sizeGrid - 1 do
 			if (not a_Grid:GetItem(x, y):IsEmpty()) then
+				-- Change amountIngredient to minium amount, if #2503 has been fixed
 				a_Recipe:SetIngredient(x, y, a_Grid:GetItem(x, y).m_ItemType, amountIngredient, 0)
 			end
 		end

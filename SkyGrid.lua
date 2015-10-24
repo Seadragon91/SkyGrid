@@ -1,6 +1,8 @@
 PLUGIN = nil
 SKYGRID = nil
 BLOCKS_OVERWORLD = nil
+BLOCKS_NETHER = nil
+BLOCKS_END = nil
 
 -- Bad, bad random generator
 math.randomseed(os.time())
@@ -25,7 +27,10 @@ function Initialize(a_Plugin)
 
 	CreateRecipes()
 
-	BLOCKS_OVERWORLD = cBlocksOverWorld.new()
+	-- The classes containing the blocks for the generator
+	BLOCKS_OVERWORLD = cBlocksOverworld.new()
+	BLOCKS_NETHER = cBlocksNether.new()
+	BLOCKS_END = cBlocksEnd.new()
 
 	-- Hooks
 	cPluginManager:AddHook(cPluginManager.HOOK_CHUNK_GENERATING, OnChunkGenerating)
@@ -48,32 +53,15 @@ end
 
 
 function LoadLuaFiles()
-	-- code
-	local files = cFile:GetFolderContents(PLUGIN:GetLocalFolder() .. "/code")
-	if (#files > 2) then
-		for _, file in pairs(files) do
-			if (string.sub(file, #file -3, #file) == ".lua") then
-				dofile(PLUGIN:GetLocalFolder() .. "/code/" .. file)
-			end
-		end
-	end
+	local folders =  { "/code", "/code/classes", "/code/commands" }
 
-	-- code/classes
-	files = cFile:GetFolderContents(PLUGIN:GetLocalFolder() .. "/code/classes")
-	if (#files > 2) then
-		for _, file in pairs(files) do
-			if (string.sub(file, #file -3, #file) == ".lua") then
-				dofile(PLUGIN:GetLocalFolder() .. "/code/classes/" .. file)
-			end
-		end
-	end
-
-	-- code/commands
-	files = cFile:GetFolderContents(PLUGIN:GetLocalFolder() .. "/code/commands")
-	if (#files > 2) then
-		for _, file in pairs(files) do
-			if (string.sub(file, #file -3, #file) == ".lua") then
-				dofile(PLUGIN:GetLocalFolder() .. "/code/commands/" .. file)
+	for _, folder in pairs(folders) do
+		local files = cFile:GetFolderContents(PLUGIN:GetLocalFolder() .. folder)
+		if (#files > 2) then
+			for _, file in pairs(files) do
+				if (string.sub(file, #file -3, #file) == ".lua") then
+					dofile(PLUGIN:GetLocalFolder() .. folder .. "/" .. file)
+				end
 			end
 		end
 	end
