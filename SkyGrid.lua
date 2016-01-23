@@ -1,9 +1,3 @@
-PLUGIN = nil
-SKYGRID = nil
-BLOCKS_OVERWORLD = nil
-BLOCKS_NETHER = nil
-BLOCKS_END = nil
-
 -- Bad, bad random generator
 math.randomseed(os.time())
 math.random(); math.random(); math.random()
