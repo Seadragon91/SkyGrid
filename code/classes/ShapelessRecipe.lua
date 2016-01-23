@@ -4,11 +4,12 @@ cShapelessRecipe = {}
 cShapelessRecipe.__index = cShapelessRecipe
 
 -- Creates a shapeless recipe
-function cShapelessRecipe.new(a_ResultItem)
+function cShapelessRecipe.new(a_ResultItem, a_CustomName)
 	local self = setmetatable({}, cShapelessRecipe)
 
 	self.m_ResultItem = a_ResultItem
 	self.m_Ingredients = {}
+	self.m_CustomName = a_CustomName
 	return self
 end
 
@@ -115,6 +116,9 @@ function cShapelessRecipe:CheckIfMatch(a_CraftingGrid, a_Recipe)
 	local amountIngredient = self:GetAmount(itemsGrid)
 	local resultItem = cItem(self.m_ResultItem)
 	resultItem.m_ItemCount = resultItem.m_ItemCount * amountIngredient
+	if (self.m_CustomName) then
+		resultItem.m_CustomName = self.m_CustomName
+	end
 
 	-- Set ingredient(s)
 	local sizeGrid = a_CraftingGrid:GetHeight()
