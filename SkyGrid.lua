@@ -13,10 +13,10 @@ function Initialize(a_Plugin)
 
 	SKYGRID = cRoot:Get():GetWorld("skygrid")
 	if (SKYGRID == nil) then
-		LOGERROR("This plugin requires the world skygrid. Please add this line")
-		LOGERROR("World=skygrid")
-		LOGERROR("to the section [Worlds] in the settings.ini.")
-		LOGERROR("Then stop and start the server again.")
+		LOGWARN("This plugin requires the world skygrid. Please add this line")
+		LOGWARN("World=skygrid")
+		LOGWARN("to the section [Worlds] in the settings.ini.")
+		LOGWARN("Then stop and start the server again.")
 	end
 
 	CreateRecipes()
