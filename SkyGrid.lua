@@ -2,14 +2,25 @@
 math.randomseed(os.time())
 math.random(); math.random(); math.random()
 
+function LoadLuaFiles()
+	local folders =  { "/code", "/code/classes", "/code/commands" }
+
+	for _, folder in pairs(folders) do
+		local files = cFile:GetFolderContents(PLUGIN:GetLocalFolder() .. folder)
+		for _, file in pairs(files) do
+			if (string.sub(file, #file -3, #file) == ".lua") then
+				dofile(PLUGIN:GetLocalFolder() .. folder .. "/" .. file)
+			end
+		end
+	end
+end
+LoadLuaFiles()
+
 function Initialize(a_Plugin)
 	a_Plugin:SetName("SkyGrid")
 	a_Plugin:SetVersion(1)
 
 	PLUGIN = a_Plugin
-
-	-- Load all lua files
-	LoadLuaFiles()
 
 	SKYGRID = cRoot:Get():GetWorld("skygrid")
 	if (SKYGRID == nil) then
@@ -42,21 +53,4 @@ end
 
 function OnDisable()
 	LOG(PLUGIN:GetName() .. " is shutting down...")
-end
-
-
-
-function LoadLuaFiles()
-	local folders =  { "/code", "/code/classes", "/code/commands" }
-
-	for _, folder in pairs(folders) do
-		local files = cFile:GetFolderContents(PLUGIN:GetLocalFolder() .. folder)
-		if (#files > 2) then
-			for _, file in pairs(files) do
-				if (string.sub(file, #file -3, #file) == ".lua") then
-					dofile(PLUGIN:GetLocalFolder() .. folder .. "/" .. file)
-				end
-			end
-		end
-	end
 end
