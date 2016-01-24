@@ -4,12 +4,13 @@ math.random(); math.random(); math.random()
 
 function LoadLuaFiles()
 	local folders =  { "/code", "/code/classes", "/code/commands" }
+	local localFolder = cPluginManager:GetCurrentPlugin():GetLocalFolder()
 
 	for _, folder in pairs(folders) do
-		local files = cFile:GetFolderContents(PLUGIN:GetLocalFolder() .. folder)
+		local files = cFile:GetFolderContents(localFolder .. folder)
 		for _, file in pairs(files) do
 			if (string.sub(file, #file -3, #file) == ".lua") then
-				dofile(PLUGIN:GetLocalFolder() .. folder .. "/" .. file)
+				dofile(localFolder .. folder .. "/" .. file)
 			end
 		end
 	end
@@ -24,7 +25,7 @@ function Initialize(a_Plugin)
 
 	SKYGRID = cRoot:Get():GetWorld("skygrid")
 	if (SKYGRID == nil) then
-		LOGWARN("This plugin requires the world skygrid. Please add this line")
+		LOGWARN("The plugin SkyGrid requires the world skygrid. Please add this line")
 		LOGWARN("World=skygrid")
 		LOGWARN("to the section [Worlds] in the settings.ini.")
 		LOGWARN("Then stop and start the server again.")
