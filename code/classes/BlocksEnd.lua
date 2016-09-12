@@ -26,8 +26,6 @@ end
 
 
 function cBlocksEnd:CheckSpecificBlocks(a_ChunkDesc, a_X, a_Y, a_Z, a_Block, a_Meta)
-	local rnd = math.random(1, 100)
-
 	if (a_Block == E_BLOCK_MOB_SPAWNER) then
 		local mobSpawner = tolua.cast(a_ChunkDesc:GetBlockEntity(a_X, a_Y, a_Z), "cMobSpawnerEntity")
 		mobSpawner:SetEntity(self.m_MobTypes[math.random(#self.m_MobTypes)])

@@ -191,7 +191,6 @@ function cShapedRecipe:CheckIfMatch(a_CraftingGrid, a_Recipe)
 	end
 
 	-- Set ingredient(s)
-	local sizeGrid = a_CraftingGrid:GetHeight()
 	for x = 0, sizeGrid - 1 do
 		for y = 0, sizeGrid - 1 do
 			if (not a_CraftingGrid:GetItem(x, y):IsEmpty()) then

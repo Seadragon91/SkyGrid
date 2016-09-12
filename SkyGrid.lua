@@ -29,6 +29,7 @@ function Initialize(a_Plugin)
 		LOGWARN("World=skygrid")
 		LOGWARN("to the section [Worlds] in the settings.ini.")
 		LOGWARN("Then stop and start the server again.")
+		return false
 	end
 
 	CreateRecipes()
