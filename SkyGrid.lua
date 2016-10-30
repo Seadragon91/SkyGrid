@@ -4,7 +4,7 @@ math.random(); math.random(); math.random()
 
 function LoadLuaFiles()
 	local folders =  { "/code", "/code/classes", "/code/commands" }
-	local localFolder = cPluginManager:GetCurrentPlugin():GetLocalFolder()
+	local localFolder = cPluginManager:Get():GetCurrentPlugin():GetLocalFolder()
 
 	for _, folder in pairs(folders) do
 		local files = cFile:GetFolderContents(localFolder .. folder)
@@ -45,7 +45,7 @@ function Initialize(a_Plugin)
 	cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_BROKEN_BLOCK, OnPlayerBrokenBlock)
 
 	-- Commands
-	cPluginManager.BindCommand("/skygrid", "skygrid.command", CommandSkygrid , " - Access to the skygrid commands")
+	cPluginManager:BindCommand("/skygrid", "skygrid.command", CommandSkygrid , " - Access to the skygrid commands")
 
 	LOG("Initialized " .. a_Plugin:GetName())
 	return true
